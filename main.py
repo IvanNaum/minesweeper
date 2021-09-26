@@ -10,7 +10,7 @@ def main():
     while True:
         functions.clear_terminal()
 
-        print('Выберите команду (введите цифру)')
+        print('Выберите команду (цифру)')
         print(*commands, sep='\n', end='\n\n')
 
         input_command = input().strip()
@@ -44,6 +44,13 @@ def main():
                 board.play()
             elif command['constant_name'] == constants.LAST_PARTS:
                 files = functions.get_files()
+
+                # if directory is empty or absent
+                if not files:
+                    print('Придыдущие партии отсутствуют.')
+                    input('Нажмите Enter, чтобы продожить.')
+                    continue
+
                 while True:
                     print('Выберите нужную партию:')
                     for i, name in enumerate(files):

@@ -190,9 +190,7 @@ class Board(object):
                 elif self.result == constants.LOST:
                     print('Вы проиграли.\n\n')
 
-                print('Через 5 секунд вы перейдете в гланое меню')
-
-                sleep(5)
+                input('Нажмите Enter, чтобы продожить.')
 
                 return
 

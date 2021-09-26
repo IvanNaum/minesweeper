@@ -27,4 +27,5 @@ def read_file(filename: str):
 
 def get_files():
     path = Path(constants.DIRECTORY)
-    return [file.name.rstrip('.txt') for file in path.iterdir()]
+    if path.is_dir():
+        return [file.name.rstrip('.txt') for file in path.iterdir()]
