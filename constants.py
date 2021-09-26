@@ -24,3 +24,6 @@ COMMANDS = {
 # board constants
 OPEN_CELL = 'open'
 FLAG_CELL = 'flag'
+
+WIN = 'W'
+LOST = 'L'

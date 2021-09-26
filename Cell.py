@@ -9,9 +9,18 @@ class Cell(object):
         self.flag = False
         self.number = 0
 
+    def forced_open(self):
+        self.flag = False
+        self.is_open = True
+
+    def add_number(self):
+        self.number += 1
+
     def open(self):
         if not self.flag:
             self.is_open = True
+            return True
+        return False
 
     def set_flag(self):
         if not self.is_open:
@@ -22,6 +31,15 @@ class Cell(object):
 
     def is_bomb(self):
         return self.type == constants.BOMB
+
+    def is_empty(self):
+        return self.type == constants.EMPTY and self.number == 0
+
+    def is_number(self):
+        return self.type == constants.EMPTY and self.number > 0
+
+    def is_close(self):
+        return not self.is_open
 
     def __str__(self):
         if self.is_open:
