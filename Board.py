@@ -1,7 +1,8 @@
-import constants
 import random
 import sys
 from time import sleep
+
+import constants
 from Cell import Cell
 from functions import clear_terminal
 
@@ -9,11 +10,14 @@ from functions import clear_terminal
 class Board(object):
     def __init__(self, width, height, bombs):
         # check and change recursion size
-        sys.setrecursionlimit(width * height - bombs + 10)
+        sys.setrecursionlimit(width * height + 10)
 
         self.width: int = width
         self.height: int = height
         self.bombs: int = bombs
+
+        # for viewing in the terminal
+        self.view_bomb = bombs
 
         self.board: list = [[Cell() for _ in range(self.width)] for _ in
                             range(self.height)]
@@ -45,6 +49,8 @@ class Board(object):
                     break
 
     def print_board(self):
+        print('Бомб осталось:', self.view_bomb)
+        print()
         print(' ' * 3, *(str(i).center(3) for i in range(self.width)), sep=' | ', end=' |\n')
         print()
         print(' ' * 4 + '-' * (6 * self.width + 1))
@@ -108,7 +114,8 @@ class Board(object):
 
                 if self.board[j][i].is_close() \
                         and self.board[j][i].is_empty() \
-                        or self.board[y][x].is_empty() and self.board[j][i].is_number():
+                        or self.board[y][x].is_empty() and self.board[j][i].is_number()\
+                        and not self.board[j][i].is_flag():
                     self.open_empty(i, j)
 
     def open(self, x, y):
@@ -123,6 +130,10 @@ class Board(object):
             else:
                 print('Невозможно открыть эту клетку')
 
+    def set_flag(self, x, y):
+        if self.board[y][x].set_flag():
+            self.view_bomb += -1 if self.board[y][x].is_flag() else 1
+
     def play(self):
         clear_terminal()
 
@@ -135,7 +146,7 @@ class Board(object):
         if action == constants.OPEN_CELL:
             self.open(x, y)
         elif action == constants.FLAG_CELL:
-            self.board[y][x].set_flag()
+            self.set_flag(x, y)
 
         # infinity loop for the game
         while True:
@@ -151,7 +162,8 @@ class Board(object):
                 if action == constants.OPEN_CELL:
                     self.open(x, y)
                 elif action == constants.FLAG_CELL:
-                    self.board[y][x].set_flag()
+                    self.set_flag(x, y)
+
             elif self.result:
                 if self.result == constants.WIN:
                     print('Вы победили!!!\n\n')
@@ -167,4 +179,4 @@ class Board(object):
 
 if __name__ == '__main__':
     # debug run
-    Board(5, 5, 4).play()
+    Board(5, 5, 1).play()

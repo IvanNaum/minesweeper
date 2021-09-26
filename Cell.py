@@ -25,6 +25,8 @@ class Cell(object):
     def set_flag(self):
         if not self.is_open:
             self.flag = not self.flag
+            return True
+        return False
 
     def set_bomb(self):
         self.type = constants.BOMB
@@ -40,6 +42,9 @@ class Cell(object):
 
     def is_close(self):
         return not self.is_open
+
+    def is_flag(self):
+        return self.flag
 
     def __str__(self):
         if self.is_open:
