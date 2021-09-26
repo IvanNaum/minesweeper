@@ -7,6 +7,7 @@ SYMBOLS_STR = {BOMB: 'B', 'flag': 'F', 'close': 'X'}
 # constants command
 STANDARD_SIZE = 'ST_S'
 SELF_SIZE = 'S_S'
+LAST_PARTS = 'L_P'
 
 # start commands
 COMMANDS = {
@@ -17,8 +18,11 @@ COMMANDS = {
     '2': {
         'name': 'Свой размер (ввод с клавиатуры)',
         'constant_name': SELF_SIZE
-
-    }
+    },
+    '3': {
+        'name': 'Предыдущие партии',
+        'constant_name': LAST_PARTS
+    },
 }
 
 # board constants
@@ -27,3 +31,9 @@ FLAG_CELL = 'flag'
 
 WIN = 'W'
 LOST = 'L'
+
+DIRECTORY = 'party-history'
+
+ascii_lowercase = 'abcdefghijklmnopqrstuvwxyz'
+digits = '0123456789'
+SYMBOLS_FOR_ENCODING = ascii_lowercase + ascii_lowercase.upper() + digits

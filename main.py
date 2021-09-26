@@ -1,15 +1,14 @@
 import random
 
-from functions import clear_terminal
-
 import constants
-from Board import Board
+import functions
+from Board import Board, decode
 
 
 def main():
     commands = tuple(map(lambda x: f'{x[0]}. {x[1]["name"]}', constants.COMMANDS.items()))
     while True:
-        clear_terminal()
+        functions.clear_terminal()
 
         print('Выберите команду (введите цифру)')
         print(*commands, sep='\n', end='\n\n')
@@ -42,6 +41,26 @@ def main():
                         print('Вы ввели отрицательное значение.\n')
 
                 board = Board(width, height, bomb)
+                board.play()
+            elif command['constant_name'] == constants.LAST_PARTS:
+                files = functions.get_files()
+                while True:
+                    print('Выберите нужную партию:')
+                    for i, name in enumerate(files):
+                        print(f'{i + 1}. {name}')
+                    try:
+                        input_file = int(input())
+                        if not 0 < input_file <= len(files):
+                            raise ValueError
+                        break
+                    except ValueError:
+                        functions.clear_terminal()
+                        print('Вы ввели некорректное значение.\n')
+                    except TypeError:
+                        functions.clear_terminal()
+                        print('Вы ввели отрицательное значение.\n')
+
+                board = decode(functions.read_file(files[input_file - 1] + '.txt'))
                 board.play()
 
 
